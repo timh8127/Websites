@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FastSites — Fast, Affordable Websites for Small Business</title>
-  <meta name="description" content="We build beautiful, conversion‑ready websites for small businesses in days — not weeks. Transparent pricing and simple process." />
+  <meta name="description" content="We build beautiful, conversion-ready websites for small businesses in days — not weeks. Transparent pricing and simple process." />
   <style>
     /* ===== Theme ===== */
     :root{ 
@@ -202,10 +202,10 @@
     .footer-links a{font-size:13px;color:var(--muted);opacity:.9}
     .footer-links a:hover{opacity:1;text-decoration:underline}
 
-    /* ===== Legal modals (Privacy & Terms) ===== */
+    /* ===== Legal modals (Privacy, Terms, Team) ===== */
     .modal{position:fixed;inset:0;z-index:2100;display:grid;place-items:center;background:rgba(9,12,18,.55);backdrop-filter:blur(14px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .28s var(--ease)}
     .modal:target{opacity:1;pointer-events:auto}
-    .sheet{max-width:860px;width:min(92vw,860px);max-height:min(84vh,900px);overflow:auto;background:linear-gradient(180deg,#141b27,#0f151f) padding-box, linear-gradient(90deg,rgba(167,139,250,.35),rgba(74,160,255,.18)) border-box;border:1px solid transparent;border-radius:20px;box-shadow:var(--shadow);padding:26px}
+    .sheet{max-width:860px;width:min(92vw,860px);max-height:min(84vh,900px);overflow:auto;background:linear-gradient(180deg,#141b27,#0f151f) padding-box, linear-gradient(90deg,rgba(167,139,250,.35),rgba(74,160,255,.18)) border-box;border:1px solid transparent;border-radius:20px;box-shadow:var(--shadow);padding:26px;position:relative;z-index:1}
     .sheet h3{margin:0 0 10px}
     .sheet .sub{margin:0 0 16px}
     .sheet .content{color:#cbd5e1;font-size:15px;line-height:1.65}
@@ -213,7 +213,12 @@
     .sheet .content p{margin:0 0 12px}
     .sheet .content ul{margin:0 0 14px 18px}
     .sheet .content li{margin:6px 0}
-    .modal .close{position:sticky;top:0;display:inline-flex;float:right;padding:8px 10px;margin:-6px -6px 8px auto;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    .modal .close{
+      position:absolute;top:12px;right:12px;z-index:5;
+      display:inline-flex;align-items:center;justify-content:center;
+      width:34px;height:34px;border-radius:10px;line-height:1;cursor:pointer;
+      background:rgba(255,255,255,.06);border:1px solid var(--line)
+    }
     .modal .close:hover{background:rgba(255,255,255,.1)}
 
     /* ===== Responsive ===== */
@@ -277,8 +282,8 @@
       <div class="container hero-grid">
         <div class="fade-up is-visible">
           <span class="eyebrow"><span class="dot"></span> Launch in days, not weeks</span>
-          <h2>Beautiful small‑business websites — fast, affordable, and done right.</h2>
-          <p>We ship clean, mobile‑first sites with SEO basics and clear calls to action. Perfect for restaurants, trades, boutiques, and freelancers.</p>
+          <h2>Beautiful small-business websites — fast, affordable, and done right.</h2>
+          <p>We ship clean, mobile-first sites with SEO basics and clear calls to action. Perfect for restaurants, trades, boutiques, and freelancers.</p>
           <div class="actions">
             <button id="heroEstimateBtn" class="cta" type="button">Estimate time & price</button>
             <a id="heroContactBtn" class="btn" href="#contact">Contact us →</a>
@@ -297,10 +302,10 @@
     <section>
       <div class="container">
         <h3 class="fade-up">Why choose us</h3>
-        <p class="sub fade-up">A focused service for small businesses that want results without the agency price‑tag.</p>
+        <p class="sub fade-up">A focused service for small businesses that want results without the agency price-tag.</p>
         <div class="features">
           <div class="card lift fade-up"><h4>Speed, without the mess</h4><p>We use a tight toolkit and proven patterns so you get quality in record time.</p></div>
-          <div class="card lift fade-up"><h4>Clean, modern design</h4><p>Readable typography, strong hierarchy, and conversion‑first layouts that feel premium.</p></div>
+          <div class="card lift fade-up"><h4>Clean, modern design</h4><p>Readable typography, strong hierarchy, and conversion-first layouts that feel premium.</p></div>
           <div class="card lift fade-up"><h4>Built to grow</h4><p>Start simple today. Add a blog, gallery, or booking later without rebuilding.</p></div>
         </div>
       </div>
@@ -334,7 +339,7 @@
             </div>
             <div>
               <h4>Be found on Google</h4>
-              <p>Show up for local searches with clean structure, fast load times, and SEO‑ready content.</p>
+              <p>Show up for local searches with clean structure, fast load times, and SEO-ready content.</p>
             </div>
           </div>
           <div class="reason lift fade-up">
@@ -397,7 +402,7 @@
               <label class="check lift"><input class="ring" type="checkbox" id="blog"/><span>Blog / News</span></label>
               <label class="check lift"><input class="ring" type="checkbox" id="gallery"/><span>Image gallery</span></label>
               <label class="check lift"><input class="ring" type="checkbox" id="booking"/><span>Booking / appointments</span></label>
-              <label class="check lift"><input class="ring" type="checkbox" id="cms"/><span>CMS (self‑edit)</span></label>
+              <label class="check lift"><input class="ring" type="checkbox" id="cms"/><span>CMS (self-edit)</span></label>
               <label class="check lift"><input class="ring" type="checkbox" id="forms"/><span>Custom forms</span></label>
               <label class="check lift"><input class="ring" type="checkbox" id="seo"/><span>SEO starter</span></label>
               <label class="check lift"><input class="ring" type="checkbox" id="analytics"/><span>Analytics & cookie banner</span></label>
@@ -429,8 +434,8 @@
         <h3 class="fade-up">Prices</h3>
         <p class="sub fade-up">Every project is unique. Use the estimator above for a tailored ballpark, or start from these common bundles.</p>
         <div class="pricing">
-          <div class="plan lift fade-up" role="button" tabindex="0" aria-label="Choose Launch plan and go to contact"><span class="pill">Launch</span><div class="price">CHF 450–750</div><p class="desc">One‑pager or micro‑site. Perfect for new businesses.</p><ul><li><span class="tick">✓</span> Mobile‑first + SEO basics</li><li><span class="tick">✓</span> Contact form</li><li><span class="tick">✓</span> 3–5 days typical</li></ul></div>
-          <div class="plan popular lift fade-up" role="button" tabindex="0" aria-label="Choose Business plan and go to contact"><span class="pill">Business</span><div class="price">CHF 900–1,600</div><p class="desc">3–6 pages, blog/gallery, CMS, analytics.</p><ul><li><span class="tick">✓</span> Strategy call & wireframe</li><li><span class="tick">✓</span> CMS (self‑edit)</li><li><span class="tick">✓</span> 1–2 weeks typical</li></ul></div>
+          <div class="plan lift fade-up" role="button" tabindex="0" aria-label="Choose Launch plan and go to contact"><span class="pill">Launch</span><div class="price">CHF 450–750</div><p class="desc">One-pager or micro-site. Perfect for new businesses.</p><ul><li><span class="tick">✓</span> Mobile-first + SEO basics</li><li><span class="tick">✓</span> Contact form</li><li><span class="tick">✓</span> 3–5 days typical</li></ul></div>
+          <div class="plan popular lift fade-up" role="button" tabindex="0" aria-label="Choose Business plan and go to contact"><span class="pill">Business</span><div class="price">CHF 900–1,600</div><p class="desc">3–6 pages, blog/gallery, CMS, analytics.</p><ul><li><span class="tick">✓</span> Strategy call & wireframe</li><li><span class="tick">✓</span> CMS (self-edit)</li><li><span class="tick">✓</span> 1–2 weeks typical</li></ul></div>
         </div>
       </div>
     </section>
@@ -456,7 +461,7 @@
               <label class="check"><input type="checkbox" id="c-blog" name="features[]" value="Blog / News"/><span>Blog / News</span></label>
               <label class="check"><input type="checkbox" id="c-gallery" name="features[]" value="Image gallery"/><span>Image gallery</span></label>
               <label class="check"><input type="checkbox" id="c-booking" name="features[]" value="Booking / appointments"/><span>Booking / appointments</span></label>
-              <label class="check"><input type="checkbox" id="c-cms" name="features[]" value="CMS (self-edit)"/><span>CMS (self‑edit)</span></label>
+              <label class="check"><input type="checkbox" id="c-cms" name="features[]" value="CMS (self-edit)"/><span>CMS (self-edit)</span></label>
               <label class="check"><input type="checkbox" id="c-forms" name="features[]" value="Custom forms"/><span>Custom forms</span></label>
               <label class="check"><input type="checkbox" id="c-seo" name="features[]" value="SEO starter"/><span>SEO starter</span></label>
               <label class="check"><input type="checkbox" id="c-analytics" name="features[]" value="Analytics & cookie banner"/><span>Analytics & cookie banner</span></label>
@@ -505,6 +510,8 @@
         <a href="#privacy">Privacy</a>
         <span aria-hidden="true">•</span>
         <a href="#terms">Terms</a>
+        <span aria-hidden="true">•</span>
+        <a href="#team">Team</a>
       </div>
     </div>
   </footer>
@@ -512,9 +519,9 @@
   <!-- Legal overlays -->
   <div id="privacy" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
     <div class="sheet">
-      <a class="close" href="#" aria-label="Close">✕</a>
+      <a class="close" href="#!" aria-label="Close">✕</a>
       <h3 id="privacyTitle">Privacy Policy</h3>
-      <p class="sub">Last updated: 27.08.2025 <span id="privacyDate"></span>. This is a simple summary of how we handle your data.</p>
+      <p class="sub">Last updated: <span id="privacyDate"></span>. This is a simple, human-readable summary of how we handle your data.</p>
       <div class="content">
         <h4>What we collect</h4>
         <p>When you contact us, we collect the information you submit: your email, message, any selected features, and (optionally) the estimate you attached from our estimator.</p>
@@ -530,18 +537,19 @@
           <li>Objection to processing or withdrawal of consent (where applicable)</li>
         </ul>
         <p>To exercise your rights, reply to our confirmation email or contact us via the form.</p>
+        <p style="font-size:12px;color:#9aa9bc">This text is provided for convenience and is not legal advice.</p>
       </div>
     </div>
   </div>
 
   <div id="terms" class="modal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
     <div class="sheet">
-      <a class="close" href="#" aria-label="Close">✕</a>
+      <a class="close" href="#!" aria-label="Close">✕</a>
       <h3 id="termsTitle">Terms of Service</h3>
       <p class="sub">Please read these simple terms that apply to projects we take on.</p>
       <div class="content">
         <h4>1) Service</h4>
-        <p>We design and build small‑business websites. Scope, price, and timeline are confirmed in your proposal or email thread.</p>
+        <p>We design and build small-business websites. Scope, price, and timeline are confirmed in your proposal or email thread.</p>
         <h4>2) Your responsibilities</h4>
         <p>Provide timely content (text, images, branding) and feedback. You must ensure you have rights to any assets you provide.</p>
         <h4>3) Revisions</h4>
@@ -551,13 +559,36 @@
         <h4>5) Ownership</h4>
         <p>Upon full payment, you own your site’s unique design, content, and exported files. We retain rights to our internal components and may showcase the project in our portfolio.</p>
         <h4>6) Warranty</h4>
-        <p>We fix implementation bugs reported within 14 days of launch. Third‑party outages (hosting, DNS, browsers, APIs) are outside our control.</p>
+        <p>We fix implementation bugs reported within 14 days of launch. Third-party outages (hosting, DNS, browsers, APIs) are outside our control.</p>
         <h4>7) Liability</h4>
         <p>Our total liability is limited to the amount you paid us for the project.</p>
         <h4>8) Cancellation</h4>
-        <p>You can cancel before build begins without charge. After kickoff, completed work is billable; any deposit may be non‑refundable.</p>
+        <p>You can cancel before build begins without charge. After kickoff, completed work is billable; any deposit may be non-refundable.</p>
         <h4>9) Governing law</h4>
         <p>These terms are governed by Swiss law. Venue: Zurich, Switzerland.</p>
+        <p style="font-size:12px;color:#9aa9bc">This is a simplified template and not legal advice.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team overlay -->
+  <div id="team" class="modal" role="dialog" aria-modal="true" aria-labelledby="teamTitle">
+    <div class="sheet">
+      <a class="close" href="#!" aria-label="Close">✕</a>
+      <h3 id="teamTitle">Team</h3>
+      <p class="sub">We’re a small, focused duo. You’ll work directly with us from first message to launch.</p>
+      <div class="content">
+        <h4>Cédric Caviezel — Design & Code</h4>
+        <p>Cédric leads product thinking, UX/UI design, and front-end implementation. He turns your brief into clean layouts, fast pages, and clear calls-to-action. Extras he can help with: performance tuning, accessibility, SEO basics, and brand roll-out.</p>
+        <h4>Tim Hug — Hosting & Domain</h4>
+        <p>Tim handles the technical foundation: domain purchase or transfer, DNS setup, SSL/TLS (HTTPS), lightweight hosting, backups, and uptime checks. He can assist with email & domain setup and analytics/cookie banner configuration.</p>
+        <h4>How we work</h4>
+        <ul>
+          <li><strong>One contact thread</strong> — quick decisions, fewer hand-offs.</li>
+          <li><strong>Simple tools</strong> — HTML/CSS/JS sites that are fast and easy to host.</li>
+          <li><strong>Transparent scope</strong> — a short proposal with price, timeline, and what’s included.</li>
+        </ul>
+        <p>If you’d like to know more about our process or availability, just use the contact form and we’ll get back within one business day.</p>
       </div>
     </div>
   </div>
@@ -582,14 +613,14 @@
       else { window.addEventListener('load', done); }
     })();
 
-    // Smooth anchor scrolling
+    // Smooth anchor scrolling (but let modal links work)
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click', e=>{
         const href=a.getAttribute('href');
         if(!href || href.length<=1) return;
-        const modalTargets=['#privacy','#terms','#close','#!'];
+        const modalTargets=['#privacy','#terms','#team','#close','#!'];
         if(modalTargets.includes(href)){
-          // allow hash to change so :target modals open
+          // allow hash to change so :target modals open/close
           return;
         }
         e.preventDefault();
@@ -604,7 +635,12 @@
     document.querySelectorAll('.fade-up').forEach(el=>{ if(!el.classList.contains('is-visible')) observer.observe(el); });
 
     // Active nav highlight based on section in view
-    const navMap={home:document.getElementById('navHome'),estimator:document.getElementById('navEstimator'),pricing:document.getElementById('navPrices'),contact:document.getElementById('navContact')};
+    const navMap={
+      home:document.getElementById('navHome'),
+      estimator:document.getElementById('navEstimator'),
+      pricing:document.getElementById('navPrices'),
+      contact:document.getElementById('navContact')
+    };
     const spy=new IntersectionObserver((ents)=>{
       ents.forEach(ent=>{
         if(ent.isIntersecting){
@@ -646,7 +682,7 @@
       // Languages
       if(langs>1){ price += 200 + (langs-2)*120; timeMin += (langs-1) * 0.3; timeMax += (langs-1) * 0.6; }
 
-      // Features (no e‑commerce)
+      // Features (no e-commerce)
       if(f.blog){ price+=150; timeMin+=0.4; timeMax+=0.8; }
       if(f.gallery){ price+=120; timeMin+=0.2; timeMax+=0.5; }
       if(f.booking){ price+=200; timeMin+=0.6; timeMax+=1.0; }
@@ -691,15 +727,17 @@
       el('estimateData').value = JSON.stringify(estimateObj);
     });
 
-    function sendEstimateToContact(){
+    // Exposed helper for "Attach to contact form" button
+    window.sendEstimateToContact = function(){
+      syncEstimatorFeaturesToContact();
       const saved = localStorage.getItem('fastsites_last_estimate');
-      if(saved){ el('estimateData').value = saved; }
+      if(saved){ document.getElementById('estimateData').value = saved; }
       const msg = document.getElementById('attachMsg');
       if(msg){ msg.style.display='block'; setTimeout(()=>{msg.style.display='none';}, 1800); }
       document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
     }
 
-    // Keep a tidy CSV summary of selected contact-form features for Formspree
+    // Keep a CSV summary of selected contact-form features for Formspree
     function updateFeaturesCSV(){
       const boxes = document.querySelectorAll('#contact-form input[name="features[]"]:checked');
       const values = Array.from(boxes).map(b=>b.value);
@@ -708,7 +746,7 @@
       if(hidden) hidden.value = csv;
     }
 
-    // Sync feature choices from estimator to contact form too (no e‑commerce)
+    // Sync feature choices from estimator to contact form too (no e-commerce)
     function syncEstimatorFeaturesToContact(){
       const map = ['blog','gallery','booking','cms','forms','seo','analytics'];
       map.forEach(k=>{
@@ -725,16 +763,16 @@
       document.getElementById('navGetEstimate')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
       document.getElementById('heroEstimateBtn')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
 
-      // Contact-form feature change listeners
-      document.querySelectorAll('#contact-form input[name="features[]"]').forEach(cb=> cb.addEventListener('change', updateFeaturesCSV));
-      updateFeaturesCSV();
-
-      // Make pricing cards clickable -> scroll to contact
+      // Pricing cards clickable -> scroll to contact
       document.querySelectorAll('.pricing .plan[role="button"]').forEach(card=>{
         const go=()=> document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
         card.addEventListener('click', go);
         card.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
       });
+
+      // Contact-form feature change listeners
+      document.querySelectorAll('#contact-form input[name="features[]"]').forEach(cb=> cb.addEventListener('change', updateFeaturesCSV));
+      updateFeaturesCSV();
 
       // always set _next to current URL with #thank-you
       const next = document.getElementById('nextUrl');
@@ -754,8 +792,18 @@
       }
     })();
 
-    // Year
+    // Year + privacy date
     document.getElementById('year').textContent = new Date().getFullYear();
+    const pd = document.getElementById('privacyDate');
+    if(pd){ const d=new Date(); pd.textContent = d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}); }
+
+    // Modal close safety net: close buttons, ESC, and backdrop clicks
+    document.querySelectorAll('.modal .close').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{ e.preventDefault(); location.hash='#!'; });
+    });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && ['#privacy','#terms','#team'].includes(location.hash)){ location.hash='#!'; } });
+    document.querySelectorAll('.modal').forEach(m=> m.addEventListener('click', (e)=>{ if(e.target===m){ location.hash='#!'; } }));
   </script>
 </body>
 </html>
+
