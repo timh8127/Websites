@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FastSites — FAQ</title>
+  <meta name="description" content="Answers to common questions about our process, timing, pricing, hosting, and more." />
+
+  <style>
+    :root{
+      --bg:#0b0f16; --bg-2:#111728; --surface:#141b27; --card:#182233;
+      --muted:#9aa3af; --text:#f3f4f6;
+      --brand:#66e3c4; --brand-2:#4aa0ff; --brand-3:#a78bfa; --brand-4:#ff72b6; --brand-5:#ffd166;
+      --line:#2a3348; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+      --ease:cubic-bezier(.22,.61,.36,1);
+    }
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;color:var(--text);
+      background:
+        radial-gradient(1600px 900px at 70% 10%, rgba(102,227,196,.035), transparent 80%),
+        radial-gradient(1200px 800px at 20% 90%, rgba(167,139,250,.035), transparent 80%),
+        radial-gradient(1000px 700px at 80% 80%, rgba(255,114,182,.03), transparent 70%),
+        linear-gradient(180deg,#0e141c,#121926,#0e1218);
+      font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,"Helvetica Neue",Arial;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1180px;margin:0 auto;padding:0 20px}
+    .center{text-align:center}
+
+    /* Aurora background for depth */
+    .aurora{position:fixed;inset:-30% -20% auto -20%;z-index:-1;filter:blur(40px);opacity:.35;pointer-events:none}
+    .aurora span{position:absolute;border-radius:50%;mix-blend-mode:screen}
+    .a1{width:48vw;height:48vw;background:radial-gradient(circle at 30% 30%, var(--brand-3), transparent 60%);left:-6vw;top:-6vw;animation:a1 22s ease-in-out infinite alternate}
+    .a2{width:36vw;height:36vw;background:radial-gradient(circle at 60% 40%, var(--brand-4), transparent 65%);right:0;top:8vh;animation:a2 26s ease-in-out infinite alternate}
+    .a3{width:40vw;height:40vw;background:radial-gradient(circle at 40% 60%, var(--brand-5), transparent 65%);left:20vw;bottom:-10vh;animation:a3 28s ease-in-out infinite alternate}
+    .a4{width:50vw;height:50vw;background:radial-gradient(circle at 50% 50%, var(--brand-2), transparent 68%);right:-10vw;bottom:-10vh;animation:a4 30s ease-in-out infinite alternate}
+    @keyframes a1{to{transform:translate(6vw,3vh)}} @keyframes a2{to{transform:translate(-5vw,2vh)}}
+    @keyframes a3{to{transform:translate(4vw,-3vh)}} @keyframes a4{to{transform:translate(-6vw,-4vh)}}
+
+    /* Preloader (logo pulse) */
+    .no-scroll{overflow:hidden}
+    .preloader{
+      position:fixed;inset:0;z-index:2000;display:grid;place-items:center;
+      background:
+        radial-gradient(1000px 420px at 15% 10%, rgba(102,227,196,.07), transparent 60%),
+        radial-gradient(1000px 420px at 85% 0%, rgba(74,160,255,.07), transparent 60%),
+        linear-gradient(180deg,var(--bg),var(--bg-2));
+    }
+    .preloader::before{
+      content:"";position:absolute;inset:0;background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0px, rgba(255,255,255,.025) 1px, transparent 1px, transparent 30px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 1px, transparent 30px);
+      pointer-events:none
+    }
+    .preloader.hide{opacity:0;visibility:hidden;transition:opacity .6s var(--ease), visibility .6s var(--ease)}
+    .loader{position:relative;display:flex;flex-direction:column;align-items:center;gap:18px;min-width:180px;min-height:180px}
+    .prelogo-wrap{position:relative;width:120px;height:120px;display:grid;place-items:center}
+    .pre-logo{
+      width:86px;height:86px;border-radius:22px;
+      background:conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand-2) 35%, var(--brand-3) 65%, var(--brand) 100%);
+      box-shadow:0 16px 40px rgba(74,160,255,.28), 0 0 0 1px rgba(255,255,255,.08) inset;
+      animation:prePulse 1.6s ease-in-out infinite;
+    }
+    .halo{position:absolute;inset:-18px;border-radius:28px;background:
+      radial-gradient(65px 65px at 50% 50%, rgba(102,227,196,.20), transparent 70%),
+      radial-gradient(90px 90px at 60% 40%, rgba(74,160,255,.16), transparent 75%),
+      radial-gradient(110px 110px at 40% 60%, rgba(167,139,250,.16), transparent 75%);
+      filter:blur(18px);opacity:.85;animation:haloBreath 2.6s ease-in-out infinite}
+    .ringSpin{position:absolute;inset:-8px;border-radius:999px;border:2px solid rgba(167,139,250,.25);border-top-color:rgba(74,160,255,.42);mix-blend-mode:screen;opacity:.9;animation:spinSlow 10s linear infinite}
+    .txt{font-weight:800;letter-spacing:.3px;color:#eef2ff;text-align:center;line-height:1;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+    .txt .dots{display:inline-block;overflow:hidden;width:0ch;animation:dots 1.1s steps(3,end) infinite}
+    @keyframes prePulse{0%,100%{transform:scale(.94)}50%{transform:scale(1.05)}}
+    @keyframes haloBreath{0%,100%{opacity:.7;transform:scale(.98)}50%{opacity:1;transform:scale(1.03)}}
+    @keyframes spinSlow{to{transform:rotate(360deg)}} @keyframes dots{0%{width:0ch}100%{width:3ch}}
+
+    /* Header */
+    header{position:sticky;top:10px;z-index:1000;background:transparent}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+    .glass{
+      position:relative;border-radius:999px;padding:10px 14px;
+      background:linear-gradient(180deg, rgba(17,23,36,.78), rgba(13,18,28,.62)) padding-box,
+                 linear-gradient(90deg, rgba(102,227,196,.22), rgba(74,160,255,.18), rgba(167,139,250,.20)) border-box;
+      border:1px solid transparent;backdrop-filter:saturate(160%) blur(18px);
+      box-shadow:0 10px 34px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06)
+    }
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:36px;height:36px;border-radius:12px;background:conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand-2) 35%, var(--brand-3) 65%, var(--brand) 100%);box-shadow:0 10px 28px rgba(102,227,196,.35)}
+    .brand h1{font-size:19px;margin:0;font-weight:800;letter-spacing:.2px}
+
+    nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+    nav a{display:inline-block;padding:10px 12px;border-radius:12px;border:1px solid transparent}
+    nav a:hover:not(.cta){border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
+    nav a.active{background:linear-gradient(90deg,rgba(102,227,196,.18),rgba(74,160,255,.18));border-color:transparent}
+
+    /* === CTA styles (mirrored from landing) === */
+    .cta{
+      position:relative;display:inline-flex;align-items:center;justify-content:center;line-height:1;
+      min-height:42px;padding:10px 16px;white-space:nowrap;
+      background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0a0b0e;font-weight:800;
+      border-radius:12px;border:0;cursor:pointer;box-shadow:0 8px 22px rgba(74,160,255,.25);
+      transform:translate3d(0,0,0) scale(1);
+      transition:transform .32s var(--ease),filter .32s var(--ease),box-shadow .32s var(--ease);
+      overflow:hidden;isolation:isolate;will-change:transform;backface-visibility:hidden;
+      animation:pulseGlow 6s ease-in-out infinite;
+    }
+    .cta::after{
+      content:"";position:absolute;inset:-2px;border-radius:inherit;
+      background:linear-gradient(120deg,rgba(255,255,255,.18),rgba(255,255,255,0) 42%, rgba(255,255,255,.18) 60%);
+      transform:translateX(-120%);opacity:0;transition:opacity .25s var(--ease);pointer-events:none
+    }
+    .cta:hover{filter:brightness(1.07);transform:translate3d(0,-3px,0) scale(1.02)}
+    .cta:active{transform:translate3d(0,-1px,0) scale(.99)}
+    .cta:hover::after{opacity:1;animation:ctaSweep .9s var(--ease)}
+    /* White pill variant when CTA is inside nav (same as landing) */
+    nav a.cta{background:rgba(255,255,255,.92);color:#0b0f16;border:1px solid rgba(255,255,255,.6);box-shadow:0 10px 22px rgba(0,0,0,.18)}
+    nav a.cta:hover{filter:brightness(1.02);background:#fff;border-color:#fff}
+    @keyframes ctaSweep{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(88,197,244,.22)}50%{box-shadow:0 0 35px rgba(102,227,196,.35)}}
+
+    /* Hero */
+    .hero{padding:96px 0 40px;position:relative;overflow:hidden}
+    .hero h2{font-size:42px;line-height:1.08;margin:0 0 10px;background:linear-gradient(90deg,#eefcf7 0%, var(--brand-3) 20%, var(--brand-2) 45%, var(--brand) 70%, #eefcf7 100%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:titleShift 8s ease-in-out infinite alternate}
+    .hero p.sub{color:#b8c2d1;margin:0 0 8px;max-width:800px}
+    @keyframes titleShift{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+
+    /* FAQ section */
+    section{position:relative;padding:64px 0;overflow:hidden}
+    section::before{
+      content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:1;
+      background:
+        radial-gradient(1000px 520px at 80% 0%, rgba(74,160,255,.04), transparent 70%),
+        radial-gradient(900px 500px at 0% 100%, rgba(102,227,196,.035), transparent 72%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 10%, #000 25%, #000 75%, rgba(0,0,0,.5) 90%, transparent 100%);
+              mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.5) 10%, #000 25%, #000 75%, rgba(0,0,0,.5) 90%, transparent 100%);
+    }
+    section > .container{position:relative;z-index:1}
+
+    .faq{max-width:900px;margin:0 auto;display:grid;gap:12px}
+    details{background:linear-gradient(180deg,#141b27,#0f151f);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);transition:border-color .25s var(--ease),transform .2s var(--ease)}
+    details:hover{border-color:#334155;transform:translateY(-1px)}
+    summary{cursor:pointer;list-style:none;font-weight:700;display:flex;align-items:center;gap:10px}
+    summary::-webkit-details-marker{display:none}
+    .chev{width:18px;height:18px;flex:0 0 auto;border-radius:6px;background:linear-gradient(180deg,#1b2536,#141c29);display:grid;place-items:center;border:1px solid #2b3648}
+    .chev::before{content:"";width:8px;height:8px;border:2px solid transparent;border-left:0;border-top:0;transform:rotate(45deg);transition:transform .25s var(--ease)}
+    details[open] .chev::before{transform:rotate(225deg)}
+    .q{font-size:16px}
+    .a{margin:10px 2px 2px 34px;color:#cbd5e1}
+    .a p{margin:0 0 6px}
+    .faq-cta{margin-top:18px}
+
+    footer{padding:40px 0;color:var(--muted)}
+    .footer-links{display:flex;gap:12px;align-items:center}
+    .footer-links a{font-size:13px;color:var(--muted);opacity:.9}
+    .footer-links a:hover{opacity:1;text-decoration:underline}
+
+    body::after{
+      content:"";position:fixed;inset:0;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P8z8DwHwAE/wJ/lB7x4gAAAABJRU5ErkJggg==");
+      background-repeat:repeat;opacity:.035;pointer-events:none;z-index:-1;
+    }
+    @media (max-width: 980px){ nav ul{display:none} }
+    @media (prefers-reduced-motion: reduce){
+      .aurora{display:none} .pre-logo,.halo,.ringSpin,.txt .dots{animation:none !important}
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader" class="preloader" role="status" aria-live="polite" aria-busy="true">
+    <div class="loader">
+      <div class="prelogo-wrap" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="ringSpin"></div>
+        <div class="pre-logo"></div>
+      </div>
+      <div class="txt">Loading<span class="dots"></span></div>
+    </div>
+  </div>
+
+  <div class="aurora" aria-hidden="true">
+    <span class="a1"></span><span class="a2"></span><span class="a3"></span><span class="a4"></span>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="glass nav">
+        <a href="fastsites.html#home" class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <h1>FastSites</h1>
+        </a>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="fastsites.html#home">Home</a></li>
+            <li><a href="fastsites.html#estimator">Estimator</a></li>
+            <li><a href="fastsites.html#pricing">Prices</a></li>
+            <li><a class="active" href="faq.html">FAQ</a></li>
+            <!-- Contact us CTA exactly like landing -->
+            <li><a class="cta" href="fastsites.html#contact">Contact us</a></li>
+          </ul>
+        </nav>
+        <div class="inline">
+          <a class="cta" href="fastsites.html#estimator">Get estimate</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="container">
+      <h2>Frequently asked questions</h2>
+      <p class="sub">Short answers about our process, timing, ownership, and costs.</p>
+    </div>
+  </main>
+
+  <section>
+    <div class="container">
+      <div class="faq">
+
+        <details>
+          <summary><span class="chev"></span><span class="q">How does the process work from start to finish?</span></summary>
+          <div class="a">
+            <p>We start with a quick chat to understand your needs. You can use our estimator for a ballpark price. Once we agree, we build and test your site, then deliver it live.</p>
+            <div class="faq-cta">
+              <a class="cta" href="fastsites.html#estimator">Open Estimator</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">How long does it take to get my website live?</span></summary>
+          <div class="a">
+            <p>Most projects go live within 2–4 business days. Larger or more complex sites may take 1–2 weeks.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">What do I need to provide before you start?</span></summary>
+          <div class="a">
+            <p>Ideally your logo, text content, and any brand assets. The clearer your input, the faster the turnaround.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">Can you help with text and images if I don’t have them ready?</span></summary>
+          <div class="a">
+            <p>We can suggest stock images and provide guidance, but it’s preferred if you bring your own images — your site will feel more authentic to your business.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">Is the website mobile-friendly?</span></summary>
+          <div class="a">
+            <p>Yes, every site we deliver is responsive and looks good on phones, tablets, and desktops.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">Will my site show up on Google?</span></summary>
+          <div class="a">
+            <p>Yes — we include SEO basics (clean code, fast load times, semantic markup, meta tags). For ongoing SEO campaigns, we recommend dedicated specialists.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">What happens after the website is delivered?</span></summary>
+          <div class="a">
+            <p>You own your site fully. We hand over all files, and you can choose ongoing support or manage it yourself.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">Can I edit the website myself later?</span></summary>
+          <div class="a">
+            <p>Yes. We include a CMS so you can edit text and images yourself. In the Business tier, we can also make changes and adjustments up to 1 week after delivery.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">How much does it cost?</span></summary>
+          <div class="a">
+            <p>The estimator gives you a rough price range. The final price is confirmed after communicating with us.</p>
+            <div class="faq-cta">
+              <a class="cta" href="fastsites.html#estimator">Open Estimator</a>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="chev"></span><span class="q">Do you offer hosting, domain, and email setup?</span></summary>
+          <div class="a">
+            <p>Yes — but these services cost extra. We’ll choose the most affordable provider for your needs. You (the customer) pay for the hosting, domain, and email setup — not us.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap">
+      <div>© <span id="year"></span> FastSites — Made for small businesses</div>
+      <div class="footer-links">
+        <a href="fastsites.html#privacy">Privacy</a>
+        <span aria-hidden="true">•</span>
+        <a href="fastsites.html#terms">Terms</a>
+        <span aria-hidden="true">•</span>
+        <a href="fastsites.html#team">Team</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple preloader hide on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const pre = document.getElementById('preloader');
+      requestAnimationFrame(() => pre.classList.add('hide'));
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
