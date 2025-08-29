@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FastSites — Fast, Affordable Websites for Small Business</title>
-  <link rel="icon" type="image/x-icon" href="/flavicon.ico">
   <meta name="description" content="We build beautiful, conversion-ready websites for small businesses in days — not weeks. Transparent pricing and simple process." />
 
   <style>
@@ -446,6 +445,12 @@ section::after{
 
     /* Keyframes */
     @keyframes ctaSweep{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+
+    /* Hide estimate and navbar on thank-you page */
+body.thanks #ty-block { display: none !important; }
+body.thanks header { display: none !important; }
+body.thanks #thank-you .inline a.btn[href="#estimator"] { display: none !important; }
+
   </style>
 </head>
 <body>
@@ -477,6 +482,7 @@ section::after{
             <li><a id="navHome" href="#home">Home</a></li>
             <li><a id="navEstimator" href="#estimator">Estimator</a></li>
             <li><a id="navPrices" href="#pricing">Prices</a></li>
+            <li><a id="navFaq" href="/faq.html">FAQ</a></li>
             <li><a id="navContact" href="#contact" class="cta">Contact us</a></li>
           </ul>
         </nav>
@@ -658,7 +664,6 @@ section::after{
         <p class="sub fade-up">Tell us about your business and your dream website. We’ll reply within two business days.</p>
         <form class="fade-up" id="contact-form" action="https://formspree.io/f/xpwjzlqe" method="POST">
           <input type="hidden" name="_subject" value="New FastSites inquiry" />
-          <input type="hidden" id="nextUrl" name="_next" value="" />
           <div style="display:none"><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
 
           <div>
@@ -701,14 +706,13 @@ section::after{
     <div class="container">
       <div class="ty-card">
         <h3>Thanks — we got your message!</h3>
-        <p class="sub">We’ll reply within one business day. Below is the estimate you attached (if any):</p>
+        <p class="sub">We’ll reply within two business days.</p>
         <div id="ty-block" class="result" style="display:none">
           <div id="ty-estimate" style="font-weight:700"></div>
           <div id="ty-breakdown" style="margin-top:6px"></div>
         </div>
         <div class="inline" style="margin-top:12px">
-          <a class="cta" href="#home">Back to Home</a>
-          <a class="btn" href="#estimator">Adjust your estimate</a>
+          <a class="cta" href="#!" id="backHomeBtn">Back to Home</a>
         </div>
       </div>
     </div>
@@ -805,194 +809,271 @@ section::after{
   </div>
 
   <script>
-    // Preloader
-    (function(){
-      const pl = document.getElementById('preloader');
-      if(!pl) return;
-      document.body.classList.add('no-scroll');
-      const start = performance.now();
-      function done(){
-        const elapsed = performance.now() - start;
-        const min = 650;
-        setTimeout(()=>{
-          pl.classList.add('hide');
-          document.body.classList.remove('no-scroll');
-          setTimeout(()=>{ try{ pl.remove(); }catch{} }, 700);
-        }, Math.max(0, min - elapsed));
+  // Preloader
+  (function(){
+    const pl = document.getElementById('preloader');
+    if(!pl) return;
+    document.body.classList.add('no-scroll');
+    const start = performance.now();
+    function done(){
+      const elapsed = performance.now() - start;
+      const min = 650;
+      setTimeout(()=>{
+        pl.classList.add('hide');
+        document.body.classList.remove('no-scroll');
+        setTimeout(()=>{ try{ pl.remove(); }catch{} }, 700);
+      }, Math.max(0, min - elapsed));
+    }
+    if(document.readyState==='complete'){ done(); }
+    else { window.addEventListener('load', done); }
+  })();
+
+  // Smooth anchor scrolling (allow modal links to work)
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const href=a.getAttribute('href');
+      if(!href || href.length<=1) return;
+      const modalTargets=['#privacy','#terms','#team','#close','#!'];
+      if(modalTargets.includes(href)) return;
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  // Reveal on scroll (includes sections for tinted overlays)
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        observer.unobserve(e.target);
       }
-      if(document.readyState==='complete'){ done(); }
-      else { window.addEventListener('load', done); }
-    })();
+    });
+  },{threshold:0.18});
+  document.querySelectorAll('.fade-up, section').forEach(el=>{
+    if(!el.classList.contains('is-visible')) observer.observe(el);
+  });
 
-    // Smooth anchor scrolling (allow modal links to work)
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const href=a.getAttribute('href');
-        if(!href || href.length<=1) return;
-        const modalTargets=['#privacy','#terms','#team','#close','#!'];
-        if(modalTargets.includes(href)) return;
-        e.preventDefault();
-        document.querySelector(href)?.scrollIntoView({behavior:'smooth'});
-      });
+  // Active nav highlight by section
+  const navMap={
+    home:document.getElementById('navHome'),
+    estimator:document.getElementById('navEstimator'),
+    pricing:document.getElementById('navPrices'),
+    contact:document.getElementById('navContact')
+  };
+  const spy=new IntersectionObserver((ents)=>{
+    ents.forEach(ent=>{
+      if(ent.isIntersecting){
+        const id=ent.target.id||'home';
+        Object.values(navMap).forEach(a=>a&&a.classList.remove('active'));
+        if(navMap[id]) navMap[id].classList.add('active');
+      }
+    })
+  },{rootMargin:'-40% 0px -50% 0px',threshold:.01});
+  document.querySelectorAll('main[id], section[id]').forEach(s=>spy.observe(s));
+
+  // Estimator logic
+  const el = id => document.getElementById(id);
+  function money(n){return `CHF ${Math.round(n/10)*10}`}
+  function days(a,b){return `${Math.max(1,Math.round(a))}–${Math.max(1,Math.round(b))} days`}
+
+  document.getElementById('calcBtn').addEventListener('click', ()=>{
+    const pages = Math.max(1, parseInt(el('pages').value||'1',10));
+    const langs = Math.max(1, parseInt(el('languages').value||'1',10));
+    const content = el('contentReady').value;
+    const urgency = el('urgency').value;
+    const f = {
+      blog: el('blog').checked,
+      gallery: el('gallery').checked,
+      booking: el('booking').checked,
+      cms: el('cms').checked,
+      forms: el('forms').checked,
+      seo: el('seo').checked,
+      analytics: el('analytics').checked,
+    };
+
+    let price = 350; let timeMin = 2, timeMax = 4;
+    price += (pages-1) * 120; timeMin += (pages-1) * 0.4; timeMax += (pages-1) * 0.7;
+    if(langs>1){ price += 200 + (langs-2)*120; timeMin += (langs-1) * 0.3; timeMax += (langs-1) * 0.6; }
+
+    if(f.blog){ price+=150; timeMin+=0.4; timeMax+=0.8; }
+    if(f.gallery){ price+=120; timeMin+=0.2; timeMax+=0.5; }
+    if(f.booking){ price+=200; timeMin+=0.6; timeMax+=1.0; }
+    if(f.cms){ price+=200; timeMin+=0.5; timeMax+=0.9; }
+    if(f.forms){ price+=80; timeMin+=0.2; timeMax+=0.4; }
+    if(f.seo){ price+=120; }
+    if(f.analytics){ price+=60; }
+
+    if(content==='copy'){ price+= 180 + (pages-1)*40; timeMin+=0.7; timeMax+=1.2; }
+    if(content==='images'){ price+= 140; timeMin+=0.3; timeMax+=0.6; }
+    if(content==='both'){ price+= 300 + (pages-1)*50; timeMin+=1.0; timeMax+=1.8; }
+
+    let mult = 1;
+    if(urgency==='rush') mult = 1.2;
+    if(urgency==='express') mult = 1.4;
+    const finalPrice = Math.round(price * mult);
+
+    let tier = (finalPrice>=900) ? 'Business' : 'Launch';
+
+    el('priceOut').textContent = money(finalPrice);
+    el('timeOut').textContent = days(timeMin, timeMax);
+    el('tierOut').textContent = `Suggested tier: ${tier}`;
+
+    const parts = [
+      `${pages} page(s)`,
+      `${langs} language(s)`,
+      f.blog? 'blog':'', f.gallery?'gallery':'', f.booking?'booking':'', f.cms?'CMS':'', f.forms?'custom forms':'', f.seo?'SEO starter':'', f.analytics?'analytics & cookies':'',
+      content==='ready'? 'content ready' : content==='copy'? 'needs copywriting' : content==='images'? 'needs images' : 'needs copy & images',
+      `urgency: ${urgency}`
+    ].filter(Boolean).join(' • ');
+    el('breakdown').textContent = parts;
+
+    el('calcResult').style.display='block';
+
+    const estimateObj = {price: finalPrice, days: {min: Math.round(timeMin), max: Math.round(timeMax)}, tier, details: parts, at: new Date().toISOString()};
+    localStorage.setItem('fastsites_last_estimate', JSON.stringify(estimateObj));
+    el('estimateData').value = JSON.stringify(estimateObj);
+  });
+
+  // Attach estimate to contact form
+  window.sendEstimateToContact = function(){
+    syncEstimatorFeaturesToContact();
+    const saved = localStorage.getItem('fastsites_last_estimate');
+    if(saved){ document.getElementById('estimateData').value = saved; }
+    const msg = document.getElementById('attachMsg');
+    if(msg){ msg.style.display='block'; setTimeout(()=>{msg.style.display='none';}, 1800); }
+    document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+  }
+
+  function updateFeaturesCSV(){
+    const boxes = document.querySelectorAll('#contact-form input[name="features[]"]:checked');
+    const values = Array.from(boxes).map(b=>b.value);
+    const csv = values.join(', ');
+    const hidden = document.getElementById('featuresCSV');
+    if(hidden) hidden.value = csv;
+  }
+  function syncEstimatorFeaturesToContact(){
+    const map = ['blog','gallery','booking','cms','forms','seo','analytics'];
+    map.forEach(k=>{
+      const from = document.getElementById(k);
+      const to = document.getElementById('c-'+k);
+      if(from && to){ to.checked = !!from.checked; }
+    });
+    updateFeaturesCSV();
+  }
+
+  // Setup & thank-you handling
+  (function(){
+    document.getElementById('navGetEstimate')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
+    document.getElementById('heroEstimateBtn')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
+
+    document.querySelectorAll('.pricing .plan[role="button"]').forEach(card=>{
+      const go=()=> document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
     });
 
-    // Reveal on scroll
-    const observer = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('is-visible');
-          observer.unobserve(e.target);
+    document.querySelectorAll('#contact-form input[name="features[]"]').forEach(cb=> cb.addEventListener('change', updateFeaturesCSV));
+    updateFeaturesCSV();
+
+    // If user visits #thank-you directly (e.g., bookmarked), show the thank-you view
+    if(window.location.hash.replace('#','') === 'thank-you'){
+      document.body.classList.add('thanks');
+      try{
+        const est = JSON.parse(localStorage.getItem('fastsites_last_estimate')||'null');
+        if(est){
+          document.getElementById('ty-estimate').textContent = `Estimate: CHF ${est.price} • ${est.days.min}–${est.days.max} days • ${est.tier}`;
+          document.getElementById('ty-breakdown').textContent = est.details;
+          document.getElementById('ty-block').style.display = 'block';
         }
-      });
-    },{threshold:0.18});
-    document.querySelectorAll('.fade-up, section').forEach(el=>{
-      if(!el.classList.contains('is-visible')) observer.observe(el);
-    });
-
-    // Active nav highlight by section
-    const navMap={home:document.getElementById('navHome'),estimator:document.getElementById('navEstimator'),pricing:document.getElementById('navPrices'),contact:document.getElementById('navContact')};
-    const spy=new IntersectionObserver((ents)=>{
-      ents.forEach(ent=>{
-        if(ent.isIntersecting){
-          const id=ent.target.id||'home';
-          Object.values(navMap).forEach(a=>a&&a.classList.remove('active'));
-          if(navMap[id]) navMap[id].classList.add('active');
-        }
-      })
-    },{rootMargin:'-40% 0px -50% 0px',threshold:.01});
-    document.querySelectorAll('main[id], section[id]').forEach(s=>spy.observe(s));
-
-    // Estimator logic
-    const el = id => document.getElementById(id);
-    function money(n){return `CHF ${Math.round(n/10)*10}`}
-    function days(a,b){return `${Math.max(1,Math.round(a))}–${Math.max(1,Math.round(b))} days`}
-
-    document.getElementById('calcBtn').addEventListener('click', ()=>{
-      const pages = Math.max(1, parseInt(el('pages').value||'1',10));
-      const langs = Math.max(1, parseInt(el('languages').value||'1',10));
-      const content = el('contentReady').value;
-      const urgency = el('urgency').value;
-      const f = {
-        blog: el('blog').checked,
-        gallery: el('gallery').checked,
-        booking: el('booking').checked,
-        cms: el('cms').checked,
-        forms: el('forms').checked,
-        seo: el('seo').checked,
-        analytics: el('analytics').checked,
-      };
-
-      let price = 350; let timeMin = 2, timeMax = 4;
-      price += (pages-1) * 120; timeMin += (pages-1) * 0.4; timeMax += (pages-1) * 0.7;
-      if(langs>1){ price += 200 + (langs-2)*120; timeMin += (langs-1) * 0.3; timeMax += (langs-1) * 0.6; }
-
-      if(f.blog){ price+=150; timeMin+=0.4; timeMax+=0.8; }
-      if(f.gallery){ price+=120; timeMin+=0.2; timeMax+=0.5; }
-      if(f.booking){ price+=200; timeMin+=0.6; timeMax+=1.0; }
-      if(f.cms){ price+=200; timeMin+=0.5; timeMax+=0.9; }
-      if(f.forms){ price+=80; timeMin+=0.2; timeMax+=0.4; }
-      if(f.seo){ price+=120; }
-      if(f.analytics){ price+=60; }
-
-      if(content==='copy'){ price+= 180 + (pages-1)*40; timeMin+=0.7; timeMax+=1.2; }
-      if(content==='images'){ price+= 140; timeMin+=0.3; timeMax+=0.6; }
-      if(content==='both'){ price+= 300 + (pages-1)*50; timeMin+=1.0; timeMax+=1.8; }
-
-      let mult = 1;
-      if(urgency==='rush') mult = 1.2;
-      if(urgency==='express') mult = 1.4;
-      const finalPrice = Math.round(price * mult);
-
-      let tier = (finalPrice>=900) ? 'Business' : 'Launch';
-
-      el('priceOut').textContent = money(finalPrice);
-      el('timeOut').textContent = days(timeMin, timeMax);
-      el('tierOut').textContent = `Suggested tier: ${tier}`;
-
-      const parts = [
-        `${pages} page(s)`,
-        `${langs} language(s)`,
-        f.blog? 'blog':'', f.gallery?'gallery':'', f.booking?'booking':'', f.cms?'CMS':'', f.forms?'custom forms':'', f.seo?'SEO starter':'', f.analytics?'analytics & cookies':'',
-        content==='ready'? 'content ready' : content==='copy'? 'needs copywriting' : content==='images'? 'needs images' : 'needs copy & images',
-        `urgency: ${urgency}`
-      ].filter(Boolean).join(' • ');
-      el('breakdown').textContent = parts;
-
-      el('calcResult').style.display='block';
-
-      const estimateObj = {price: finalPrice, days: {min: Math.round(timeMin), max: Math.round(timeMax)}, tier, details: parts, at: new Date().toISOString()};
-      localStorage.setItem('fastsites_last_estimate', JSON.stringify(estimateObj));
-      el('estimateData').value = JSON.stringify(estimateObj);
-    });
-
-    // Attach estimate to contact form
-    window.sendEstimateToContact = function(){
-      syncEstimatorFeaturesToContact();
-      const saved = localStorage.getItem('fastsites_last_estimate');
-      if(saved){ document.getElementById('estimateData').value = saved; }
-      const msg = document.getElementById('attachMsg');
-      if(msg){ msg.style.display='block'; setTimeout(()=>{msg.style.display='none';}, 1800); }
-      document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+      }catch{}
     }
+  })();
 
-    function updateFeaturesCSV(){
-      const boxes = document.querySelectorAll('#contact-form input[name="features[]"]:checked');
-      const values = Array.from(boxes).map(b=>b.value);
-      const csv = values.join(', ');
-      const hidden = document.getElementById('featuresCSV');
-      if(hidden) hidden.value = csv;
-    }
-    function syncEstimatorFeaturesToContact(){
-      const map = ['blog','gallery','booking','cms','forms','seo','analytics'];
-      map.forEach(k=>{
-        const from = document.getElementById(k);
-        const to = document.getElementById('c-'+k);
-        if(from && to){ to.checked = !!from.checked; }
-      });
-      updateFeaturesCSV();
-    }
+  // --- Intercept Formspree submit and route to the in-page #thank-you view ---
+  (function(){
+    const form = document.getElementById('contact-form');
+    if(!form) return;
 
-    // Setup & thank-you handling
-    (function(){
-      document.getElementById('navGetEstimate')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
-      document.getElementById('heroEstimateBtn')?.addEventListener('click',()=> document.querySelector('#estimator').scrollIntoView({behavior:'smooth'}));
+    const submitBtn = form.querySelector('button[type="submit"]');
 
-      document.querySelectorAll('.pricing .plan[role="button"]').forEach(card=>{
-        const go=()=> document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
-        card.addEventListener('click', go);
-        card.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
-      });
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
 
-      document.querySelectorAll('#contact-form input[name="features[]"]').forEach(cb=> cb.addEventListener('change', updateFeaturesCSV));
-      updateFeaturesCSV();
+      // UX: disable while sending
+      const oldLabel = submitBtn ? submitBtn.textContent : null;
+      if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
 
-      const next = document.getElementById('nextUrl');
-      if(next){ next.value = window.location.href.split('#')[0] + '#thank-you'; }
+      const data = new FormData(form);
 
-      if(window.location.hash.replace('#','') === 'thank-you'){
-        document.body.classList.add('thanks');
-        try{
-          const est = JSON.parse(localStorage.getItem('fastsites_last_estimate')||'null');
-          if(est){
-            document.getElementById('ty-estimate').textContent = `Estimate: CHF ${est.price} • ${est.days.min}–${est.days.max} days • ${est.tier}`;
-            document.getElementById('ty-breakdown').textContent = est.details;
-            document.getElementById('ty-block').style.display = 'block';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' } // JSON, not HTML redirect
+        });
+
+        if (res.ok) {
+          // Switch to thank-you view (no external redirect)
+          document.body.classList.add('thanks');
+          if (location.hash !== '#thank-you') {
+            history.replaceState(null, '', '#thank-you');
           }
-        }catch{}
+
+          // Show estimate details if available
+          try {
+            const est = JSON.parse(localStorage.getItem('fastsites_last_estimate') || 'null');
+            if (est) {
+              const estEl = document.getElementById('ty-estimate');
+              const bdEl  = document.getElementById('ty-breakdown');
+              const blk   = document.getElementById('ty-block');
+              if(estEl) estEl.textContent = `Estimate: CHF ${est.price} • ${est.days.min}–${est.days.max} days • ${est.tier}`;
+              if(bdEl)  bdEl.textContent  = est.details;
+              if(blk)   blk.style.display = 'block';
+            }
+          } catch {}
+
+          // Reset form
+          form.reset();
+          // Recompute features CSV after reset
+          updateFeaturesCSV();
+
+        } else {
+          // Try to read Formspree errors
+          let msg = 'Hmm, something went wrong sending the form. Please try again.';
+          try {
+            const json = await res.json();
+            if(json?.errors?.length){ msg = json.errors.map(e=>e.message).join('\n'); }
+          } catch {}
+          alert(msg);
+        }
+      } catch (err) {
+        alert('Network error while sending the form. Please try again in a moment.');
+      } finally {
+        if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = oldLabel || 'Send message'; }
       }
-    })();
-
-    // Year + privacy date
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const pd = document.getElementById('privacyDate');
-    if(pd){ const d=new Date(); pd.textContent = d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}); }
-
-    // Modal close safety
-    document.querySelectorAll('.modal .close').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{ e.preventDefault(); location.hash='#!'; });
     });
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && ['#privacy','#terms','#team'].includes(location.hash)){ location.hash='#!'; } });
-    document.querySelectorAll('.modal').forEach(m=> m.addEventListener('click', (e)=>{ if(e.target===m){ location.hash='#!'; } }));
-  </script>
+  })();
+
+  // Year + privacy date
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const pd = document.getElementById('privacyDate');
+  if(pd){ const d=new Date(); pd.textContent = d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}); }
+
+  // Modal close safety
+  document.querySelectorAll('.modal .close').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{ e.preventDefault(); location.hash='#!'; });
+  });
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && ['#privacy','#terms','#team'].includes(location.hash)){ location.hash='#!'; } });
+  document.querySelectorAll('.modal').forEach(m=> m.addEventListener('click', (e)=>{ if(e.target===m){ location.hash='#!'; } }));
+
+  // Back to Home on thank-you page
+document.getElementById('backHomeBtn')?.addEventListener('click', e=>{
+  e.preventDefault();
+  document.body.classList.remove('thanks');    // show site again
+  history.replaceState(null, '', '#home');     // update URL
+  document.querySelector('#home')?.scrollIntoView({behavior:'smooth'});
+});
+</script>
+
 </body>
 </html>
